@@ -43,21 +43,19 @@ def gb2fa(input_file, save_file):
 
 
 def gb2mVISTA(input_file, save_file):
-
-
     all_info = []
     if parse_genbank_file(input_file):
         for rec in SeqIO.parse(input_file, format='genbank'):
-        # records = parse_genbank_file(input_file)
             for feature in rec.features:
                 if feature.type == 'gene':
                     for part in feature.location.parts:
-                        if int(part.strand) == 1:
-                            if ['>', int(part.start) + 1, int(part.end), feature.qualifiers['gene'][0]] not in all_info:
-                                all_info.append(['>', int(part.start) + 1, int(part.end), feature.qualifiers['gene'][0]])
-                        else:
-                            if ['<', int(part.start) + 1, int(part.end), feature.qualifiers['gene'][0]] not in all_info:
-                                all_info.append(['<', int(part.start) + 1, int(part.end), feature.qualifiers['gene'][0]])
+                        if 'gene' in feature.qualifiers:
+                            if int(part.strand) == 1:
+                                if ['>', int(part.start) + 1, int(part.end), feature.qualifiers['gene'][0]] not in all_info:
+                                    all_info.append(['>', int(part.start) + 1, int(part.end), feature.qualifiers['gene'][0]])
+                            else:
+                                if ['<', int(part.start) + 1, int(part.end), feature.qualifiers['gene'][0]] not in all_info:
+                                    all_info.append(['<', int(part.start) + 1, int(part.end), feature.qualifiers['gene'][0]])
                 elif feature.type == 'CDS':
                     for part in feature.location.parts:
                         if int(part.strand) == 1:

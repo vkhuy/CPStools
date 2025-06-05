@@ -19,8 +19,8 @@ def check_files(input_file):
     try:
         if input_file.endswith('.fasta') or input_file.endswith('.fa'):
             for rec in SeqIO.parse(input_file, 'fasta'):
-                if not re.fullmatch(r'[ATCG]*', str(rec.seq)):
-                    raise ValueError("Sequence contains bases other than A, T, C, G.")
+                if not re.fullmatch(r'[ATCGRYSWKMBVDHNatcgryswkmbvdhn]*', str(rec.seq)):
+                    raise ValueError("Sequence contains bases outside IUPAC nucleotide codes.")
                     sys.exit()
                 else:
                     return rec.seq
